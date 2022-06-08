@@ -2,7 +2,10 @@ import SwiftUI
 
 
 struct TranslationView: View {
-
+    
+    // moved to View if future functionality included changing the original language
+    @State private var originalLanguage: Language = Language(id: "en", name: "English")
+    
     @State private var selectedLanguage: Language = Language(id: "en", name: "English")
     @State private var inputText: String = ""
     @StateObject private var viewModel = TranslationViewModel()
@@ -32,13 +35,12 @@ struct TranslationView: View {
                 }.listStyle(InsetGroupedListStyle())
                 
                 Button("Translate!", action: translate).padding()
-            }
+            }.errorAlert(showAlert: $viewModel.showAlert)
         }
     }
     
     func translate() {
-        print("Not implemented")
-        // TODO: you will need to implement this
+        viewModel.translate(inputText, from: originalLanguage, to: selectedLanguage)
     }
 }
 
